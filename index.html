@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orbit Nav - 个人极简导航</title>
+  <!-- 内置 SVG Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-view="card">
+
+  <div class="app-layout">
+    <!-- 顶部导航栏 -->
+    <header class="top-header">
+      <a href="#" class="brand-logo">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-name">Orbit Nav</div>
+      </a>
+
+      <div class="header-actions">
+        <button type="button" class="action-btn btn-primary" id="add-bookmark-btn" title="添加新书签 (快捷键 Alt+N)">
+          <span>➕</span>
+          <span class="btn-text">添加书签</span>
+        </button>
+        <button type="button" class="action-btn icon-btn" id="view-toggle-btn" title="切换视图模式 (卡片 / 紧凑)">
+          🗂️
+        </button>
+        <button type="button" class="action-btn icon-btn" id="theme-toggle-btn" title="切换主题模式 (深色 / 浅色)">
+          🌙
+        </button>
+        <button type="button" class="action-btn icon-btn" id="settings-btn" title="设置与书签备份导入">
+          ⚙️
+        </button>
+      </div>
+    </header>
+
+    <!-- 核心时钟与多引擎搜索区 -->
+    <section class="hero-section">
+      <div class="clock-widget">
+        <div class="clock-time" id="clock-time">--:--</div>
+        <div class="clock-date" id="clock-date">正在同步时间...</div>
+      </div>
+
+      <!-- 搜索引擎切换条 -->
+      <div class="engine-switcher" id="engine-switcher">
+        <!-- 由 JS 动态渲染 -->
+      </div>
+
+      <!-- 搜索输入框 -->
+      <div class="search-bar-container">
+        <span class="search-icon-prefix">🔍</span>
+        <input 
+          type="text" 
+          id="main-search-input" 
+          class="main-search-input" 
+          placeholder="通过 Google 搜索或过滤书签... (按 / 聚焦)" 
+          autocomplete="off" 
+          spellcheck="false"
+        />
+        <div class="search-badge-suffix">
+          <button type="button" id="clear-search-btn" class="clear-search-btn" title="清除">✕</button>
+          <span class="kbd-badge" title="按下键盘 / 或 ⌘K 快速聚焦">/</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 快捷分类锚点栏 -->
+    <nav class="category-dock" id="category-dock">
+      <!-- 由 JS 动态渲染 -->
+    </nav>
+
+    <!-- 主书签分类展示区 -->
+    <main class="categories-container" id="categories-container">
+      <!-- 由 JS 动态渲染 -->
+    </main>
+
+    <!-- 底部信息与快捷键指南 -->
+    <footer class="app-footer">
+      <div class="footer-links">
+        <a href="javascript:void(0)" onclick="app.openCategoryManagerModal()">📁 管理分类</a>
+        <span>·</span>
+        <a href="javascript:void(0)" onclick="app.exportHTML()">📥 导出书签</a>
+        <span>·</span>
+        <a href="javascript:void(0)" onclick="document.getElementById('settings-btn').click()">⚙️ 数据备份</a>
+      </div>
+      <div>
+        按 <kbd style="font-family:var(--font-mono); background:var(--bg-surface); padding:1px 5px; border-radius:4px; border:1px solid var(--border-color);">/</kbd> 快速搜索 · 按 <kbd style="font-family:var(--font-mono); background:var(--bg-surface); padding:1px 5px; border-radius:4px; border:1px solid var(--border-color);">Alt+N</kbd> 添加书签 · 极简轻量 · 纯本地静态运行
+      </div>
+    </footer>
+  </div>
+
+  <!-- ================= 弹窗：添加 / 编辑书签 ================= -->
+  <div class="modal-backdrop" id="bookmark-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title" id="modal-title">➕ 添加新书签</div>
+        <button type="button" class="modal-close-btn" data-close-modal>✕</button>
+      </div>
+      <form id="bookmark-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label class="form-label" for="bm-category">所属分类 *</label>
+            <select id="bm-category" class="form-select" required>
+              <!-- JS 填充 -->
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="bm-title">网站标题 *</label>
+            <input type="text" id="bm-title" class="form-input" placeholder="例如：GitHub" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="bm-url">网址链接 (URL) *</label>
+            <input type="text" id="bm-url" class="form-input" placeholder="例如：https://github.com" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="bm-desc">网站描述 / 关键词</label>
+            <input type="text" id="bm-desc" class="form-input" placeholder="例如：全球代码托管平台">
+          </div>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label class="form-label" for="bm-icon">自定义图标 (Emoji 或图片 URL)</label>
+              <input type="text" id="bm-icon" class="form-input" placeholder="留空则自动抓取 Favicon">
+            </div>
+            <div class="form-group" style="justify-content: flex-end; padding-bottom: 8px;">
+              <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+                <input type="checkbox" id="bm-pinned" style="accent-color: var(--accent); width: 16px; height: 16px;">
+                <span>📌 固定置顶到该分类前列</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="action-btn" data-close-modal>取消</button>
+          <button type="submit" class="action-btn btn-primary">保存书签</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= 弹窗：分类管理器 ================= -->
+  <div class="modal-backdrop" id="category-manager-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">📁 分类管理</div>
+        <button type="button" class="modal-close-btn" data-close-modal>✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; gap: 8px; margin-bottom: 8px;">
+          <input type="text" id="new-cat-icon" class="form-input" placeholder="图标(如 🤖)" style="width: 80px;">
+          <input type="text" id="new-cat-name" class="form-input" placeholder="新分类名称..." style="flex: 1;">
+          <button type="button" class="action-btn btn-primary" id="add-cat-btn">+ 添加分类</button>
+        </div>
+        <div class="form-label" style="margin-top: 12px; margin-bottom: 4px;">现有分类列表 (可排序与删除)：</div>
+        <div id="category-list-container">
+          <!-- JS 渲染 -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="action-btn" data-close-modal>完成</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 弹窗：设置与备份导入 ================= -->
+  <div class="modal-backdrop" id="settings-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">⚙️ 设置与数据备份</div>
+        <button type="button" class="modal-close-btn" data-close-modal>✕</button>
+      </div>
+      <div class="modal-body">
+        <!-- 导出备份 -->
+        <div class="settings-section">
+          <div class="settings-title">📤 导出备份</div>
+          <div class="settings-desc">导出您的所有书签配置，可以在任何其他浏览器随时恢复。</div>
+          <div class="settings-btn-group">
+            <button type="button" class="action-btn" onclick="app.exportJSON()">📦 导出 JSON 备份</button>
+            <button type="button" class="action-btn" onclick="app.exportHTML()">🌐 导出为浏览器 HTML 书签</button>
+          </div>
+        </div>
+
+        <!-- 导入数据 -->
+        <div class="settings-section">
+          <div class="settings-title">📥 导入书签</div>
+          <div class="settings-desc">支持导入从 Chrome / Edge / Safari 导出的书签 HTML 文件，或之前导出的 JSON 备份。</div>
+          <input type="file" id="import-file-input" accept=".json,.html,.htm" style="display:none;" onchange="app.importFile(this.files[0])">
+          <button type="button" class="action-btn btn-primary" onclick="document.getElementById('import-file-input').click()">
+            📂 选择本地书签文件并导入
+          </button>
+        </div>
+
+        <!-- 分类管理快捷入口 -->
+        <div class="settings-section">
+          <div class="settings-title">📁 分类管理</div>
+          <div class="settings-desc">调整分类顺序、新增或删除不需要的分类板块。</div>
+          <button type="button" class="action-btn" onclick="hideModal(document.getElementById('settings-modal')); app.openCategoryManagerModal();">
+            进入分类管理
+          </button>
+        </div>
+
+        <!-- 重置出厂 -->
+        <div class="settings-section">
+          <div class="settings-title" style="color: var(--danger);">⚠️ 重置数据</div>
+          <div class="settings-desc">清除本地自定义数据并恢复为系统默认精选书签。</div>
+          <button type="button" class="action-btn" style="color: var(--danger);" onclick="app.resetToDefault()">
+            恢复默认精选书签
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="action-btn" data-close-modal>关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast 提示容器 -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- 引入配置与主脚本 -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
