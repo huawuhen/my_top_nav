@@ -124,38 +124,38 @@ const DEFAULT_BOOKMARKS = [
   },
   {
     id: 'cat-tools',
-    name: '效率与办公',
+    name: '个人办公',
     icon: '🛠️',
     items: [
       {
         id: 'bm-notion',
-        title: 'Notion',
-        url: 'https://www.notion.so',
-        desc: '全能个人知识库与项目协作工具',
+        title: 'Blog',
+        url: 'https://19940816.xyz/',
+        desc: '个人博客',
         icon: '📝',
         pinned: true
       },
       {
         id: 'bm-figma',
-        title: 'Figma',
-        url: 'https://www.figma.com',
-        desc: '领先的在线 UI/UX 设计与原型协作',
-        icon: '🎨',
+        title: '直连网盘',
+        url: 'https://git.19940816.xyz/',
+        desc: '部署在vps直连网盘',
+        icon: '☁️',
         pinned: false
       },
       {
         id: 'bm-linear',
-        title: 'Linear',
-        url: 'https://linear.app',
-        desc: '极致流畅的敏捷项目与问题跟踪',
-        icon: '📐',
+        title: 'tvbox订阅',
+        url: 'https://tvrss.19940816.xyz/',
+        desc: '部署在 cf 的 tvbox订阅RSS',
+        icon: '🎬',
         pinned: false
       },
       {
         id: 'bm-excalidraw',
-        title: 'Excalidraw',
-        url: 'https://excalidraw.com',
-        desc: '手绘风格的极简在线白板架构图',
+        title: 'Dokcer 镜像',
+        url: 'https://docker.19940816.xyz/',
+        desc: '部署在 cf 的镜像加速',
         icon: '✏️',
         pinned: false
       },
@@ -169,10 +169,10 @@ const DEFAULT_BOOKMARKS = [
       },
       {
         id: 'bm-tinypng',
-        title: 'TinyPNG',
-        url: 'https://tinypng.com',
-        desc: '智能无损图片压缩优化工具',
-        icon: '🐼',
+        title: '在线图床',
+        url: 'https://tuchuang.19940816.xyz/',
+        desc: '部署在 cf 的图床',
+        icon: '🎨',
         pinned: false
       }
     ]
