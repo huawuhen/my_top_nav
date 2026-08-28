@@ -255,9 +255,9 @@ const DEFAULT_BOOKMARKS = [
       },
       {
         id: 'bm-music',
-        title: '网易云音乐',
-        url: 'https://music.163.com',
-        desc: '发现好音乐与音乐社区',
+        title: '个人在线影视',
+        url: 'https://tv.redith.cn/',
+        desc: '搭建在 VPS的在线影视pass:wuhen',
         icon: '🎵',
         pinned: false
       },
