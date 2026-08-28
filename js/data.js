@@ -14,7 +14,7 @@ const DEFAULT_ENGINES = [
 const DEFAULT_BOOKMARKS = [
   {
     id: 'cat-ai',
-    name: 'AI 生产力',
+    name: '个人生产力',
     icon: '🤖',
     items: [
       {
@@ -51,10 +51,10 @@ const DEFAULT_BOOKMARKS = [
       },
       {
         id: 'bm-deepseek',
-        title: 'DeepSeek',
-        url: 'https://chat.deepseek.com',
-        desc: '高性能开源大模型与推理助手',
-        icon: '🐋',
+        title: '家庭路由器',
+        url: 'http://router.redith.cn:9090/',
+        desc: '家里的路由器访问',
+        icon: '🌐',
         pinned: false
       },
       {
@@ -74,8 +74,8 @@ const DEFAULT_BOOKMARKS = [
     items: [
       {
         id: 'bm-github',
-        title: 'GitHub',
-        url: 'https://github.com',
+        title: 'MyGitHub',
+        url: 'https://github.com/huawuhen',
         desc: '全球最大的代码托管与开源协作平台',
         icon: '🐙',
         pinned: true
@@ -124,7 +124,7 @@ const DEFAULT_BOOKMARKS = [
   },
   {
     id: 'cat-tools',
-    name: '个人办公',
+    name: '个人搭建',
     icon: '🛠️',
     items: [
       {
@@ -161,9 +161,9 @@ const DEFAULT_BOOKMARKS = [
       },
       {
         id: 'bm-deepl',
-        title: 'DeepL 翻译',
-        url: 'https://www.deepl.com/translator',
-        desc: '准确自然的专业级多语言翻译',
+        title: 'GitHub 加速',
+        url: 'https://github.19940816.xyz/',
+        desc: '部署在 cf 的镜像加速',
         icon: '🌐',
         pinned: false
       },
