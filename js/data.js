@@ -138,7 +138,7 @@ const DEFAULT_BOOKMARKS = [
       {
         id: 'bm-figma',
         title: '直连网盘',
-        url: 'https://git.19940816.xyz/',
+        url: 'https://git.homwei.icu/',
         desc: '部署在vps直连网盘',
         icon: '☁️',
         pinned: false
